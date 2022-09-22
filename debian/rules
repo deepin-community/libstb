@@ -1,0 +1,22 @@
+#!/usr/bin/make -f
+#export DH_VERBOSE = 1
+
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+# https://github.com/nothings/stb/issues/741
+export DEB_CFLAGS_MAINT_APPEND  = -Wall -pedantic -fwrapv
+export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
+
+export MULTIARCH = $(DEB_HOST_MULTIARCH)
+
+
+%:
+	dh $@
+
+execute_after_dh_auto_clean:
+	+$(MAKE) -C tests clean
+
+override_dh_auto_test:
+	+$(MAKE) -C tests
+	+$(MAKE) -C tests do_tests

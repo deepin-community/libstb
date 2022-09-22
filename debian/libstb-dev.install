@@ -1,0 +1,4 @@
+usr/include/stb/*.h
+usr/lib/*/libstb.so
+usr/lib/*/libstb.a
+usr/lib/*/pkgconfig/stb.pc

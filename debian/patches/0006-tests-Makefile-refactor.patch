@@ -1,0 +1,87 @@
+From 82d19c8b093e1bbb924625d50e905c7706cb54f1 Mon Sep 17 00:00:00 2001
+From: yangfl <yangfl@users.noreply.github.com>
+Date: Wed, 10 Jul 2019 11:00:23 +0800
+Subject: [PATCH 6/8] tests/Makefile: refactor
+
+---
+ tests/Makefile | 70 +++++++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 58 insertions(+), 12 deletions(-)
+
+diff --git a/tests/Makefile b/tests/Makefile
+index 1782ea6..8a3c795 100644
+--- a/tests/Makefile
++++ b/tests/Makefile
+@@ -1,12 +1,58 @@
+-INCLUDES = -I..
+-CFLAGS = -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast -DSTB_DIVIDE_TEST
+-CPPFLAGS = -Wno-write-strings -DSTB_DIVIDE_TEST
+-
+-# Uncomment this line for reproducing OSS-Fuzz bugs with image_fuzzer
+-#CFLAGS += -O -fsanitize=address 
+-
+-all:
+-	$(CC) $(INCLUDES) $(CFLAGS) ../stb_vorbis.c test_c_compilation.c test_c_lexer.c test_dxt.c test_easyfont.c test_image.c test_image_write.c test_perlin.c test_sprintf.c test_truetype.c test_voxel.c -lm
+-	$(CC) $(INCLUDES) $(CPPFLAGS) -std=c++0x test_cpp_compilation.cpp -lm -lstdc++
+-	$(CC) $(INCLUDES) $(CFLAGS) -DIWT_TEST image_write_test.c -lm -o image_write_test
+-	$(CC) $(INCLUDES) $(CFLAGS) fuzz_main.c stbi_read_fuzzer.c -lm -o image_fuzzer
++CPPFLAGS += -I..
++LDFLAGS += -lm
++
++.PHONY: all
++all: test_stb_divide test_stb_c_lexer image_test
++
++.PHONY: clean
++clean:
++	rm -rf *.o libstb.so.0 \
++		output test-output \
++		test_stb_divide test_stb_c_lexer image_test
++
++# build
++%.c: %.h
++	cp $< $@
++
++../libstb.so:
++	+make -C ..
++
++libstb.so.0: ../libstb.so.0
++	ln -s ../libstb.so.0 $@
++
++test_%: test_%.o libstb.so.0
++
++test_stb_divide.o: ../stb_divide.c
++	$(CC) $(CPPFLAGS) -DSTB_DIVIDE_IMPLEMENTATION -DSTB_DIVIDE_TEST $(CFLAGS) -o $@ -c $^
++
++test_stb_c_lexer.o: ../stb_c_lexer.c
++	$(CC) $(CPPFLAGS) -DSTB_C_LEXER_IMPLEMENTATION -DSTB_C_LEXER_SELF_TEST $(CFLAGS) -o $@ -c $^
++
++image_test.o: image_test.c
++	$(CC) $(CPPFLAGS) -DPNGSUITE_PRIMARY $(CFLAGS) -o $@ -c $^
++
++image_test: image_test.o image_write_test.o libstb.so.0
++	$(CC) -o $@ $^ $(LDFLAGS)
++
++# test
++.PHONY: do_tests
++do_tests: output do_test_stb_divide do_test_stb_c_lexer do_image_test do_test_cpp_compilation
++
++output:
++	mkdir -p output
++
++.PHONY: do_%
++do_%: % libstb.so.0
++	LD_LIBRARY_PATH=.:$$LD_LIBRARY_PATH ./$<
++
++.PHONY: do_test_stb_divide
++do_test_stb_divide: test_stb_divide
++	./$<
++
++.PHONY: do_test_stb_c_lexer
++do_test_stb_c_lexer: test_stb_c_lexer
++	cd ..; ./tests/$< > /dev/null
++
++.PHONY: do_test_cpp_compilation
++do_test_cpp_compilation: test_cpp_compilation.cpp
++	$(CXX) $(CPPFLAGS) $(CFLAGS) -o /dev/null -c $^
+-- 
+2.30.0
+

@@ -1,0 +1,25 @@
+From 2a7266140ae004e202666abf8320447ca39f9712 Mon Sep 17 00:00:00 2001
+From: yangfl <yangfl@users.noreply.github.com>
+Date: Wed, 10 Jul 2019 11:00:07 +0800
+Subject: [PATCH 8/8] tests/image_write_test.c: use library
+
+---
+ tests/image_write_test.c | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/tests/image_write_test.c b/tests/image_write_test.c
+index 4e4a7e8..fc78011 100644
+--- a/tests/image_write_test.c
++++ b/tests/image_write_test.c
+@@ -1,8 +1,3 @@
+-#ifdef __clang__
+-#define STBIWDEF static inline
+-#endif
+-#define STB_IMAGE_WRITE_STATIC
+-#define STB_IMAGE_WRITE_IMPLEMENTATION
+ #include "stb_image_write.h"
+ 
+ // using an 'F' since it has no rotational symmetries, and 6x5
+-- 
+2.30.0
+

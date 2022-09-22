@@ -1,0 +1,26 @@
+From 868d1e0af2e092453bc5697a017f0fdacd995910 Mon Sep 17 00:00:00 2001
+From: yangfl <yangfl@users.noreply.github.com>
+Date: Wed, 10 Jul 2019 10:59:44 +0800
+Subject: [PATCH 7/8] tests/image_test.c: use library
+
+---
+ tests/image_test.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/tests/image_test.c b/tests/image_test.c
+index 9c216cf..61fa5cc 100644
+--- a/tests/image_test.c
++++ b/tests/image_test.c
+@@ -1,9 +1,7 @@
+ #define STBI_WINDOWS_UTF8
+ 
+-#define STB_IMAGE_WRITE_IMPLEMENTATION
+ #include "stb_image_write.h"
+ 
+-#define STB_IMAGE_IMPLEMENTATION
+ #include "stb_image.h"
+ 
+ #define STB_DEFINE
+-- 
+2.30.0
+

@@ -1,0 +1,57 @@
+libstb (0.0~git20200713.b42009b+ds-1) unstable; urgency=medium
+
+  * Mask out rectangle packing replacement in stb_truetype (Closes: #982029)
+  * Bump Standards-Version to 4.5.1
+
+ -- Yangfl <mmyangfl@gmail.com>  Tue, 16 Feb 2021 13:39:47 +0800
+
+libstb (0.0~git20200713.b42009b-1) unstable; urgency=medium
+
+  * New upstream snapshot
+  * Make Description more descriptive (Closes: #948571)
+  * Bump Standards-Version to 4.5.0
+  * Bump debhelper compat to 13
+
+ -- Yangfl <mmyangfl@gmail.com>  Tue, 08 Dec 2020 15:07:36 +0800
+
+libstb (0.0~git20190817.1.052dce1-1) unstable; urgency=medium
+
+  [ Boyuan Yang ]
+  * New upstream snapshot
+    + Include upstream CVE fixes:
+      - CVE-2019-13217: heap buffer overflow in start_decoder()
+      - CVE-2019-13218: stack buffer overflow in compute_codewords()
+      - CVE-2019-13219: uninitialized memory in
+                        vorbis_decode_packet_rest()
+      - CVE-2019-13220: out-of-range read in draw_line()
+      - CVE-2019-13221: issue with large 1D codebooks in
+                        lookup1_values()
+      - CVE-2019-13222: unchecked NULL returned by get_window()
+      - CVE-2019-13223: division by zero in predict_point()
+      (Closes: #934966)
+  * debian/rules, Makefile: Make sure the package cross-builds
+    correctly (Closes: #932660)
+  * debian/libstb0.symbols: Add new symbols
+
+ -- Yangfl <mmyangfl@gmail.com>  Fri, 20 Sep 2019 08:31:51 +0800
+
+libstb (0.0~git20190617.5.c72a95d-2) unstable; urgency=medium
+
+  * Fix FTBFS on many architectures
+
+ -- Yangfl <mmyangfl@gmail.com>  Wed, 10 Jul 2019 20:14:35 +0800
+
+libstb (0.0~git20190617.5.c72a95d-1) unstable; urgency=medium
+
+  * New upstream release
+  * Try to fix FTBFS on x32
+  * Bump Standards-Version to 4.4.0
+  * Bump debhelper compat to 12
+
+ -- Yangfl <mmyangfl@gmail.com>  Mon, 08 Jul 2019 16:38:02 +0800
+
+libstb (0.0~git20180212.15.e6afb9c-1) unstable; urgency=medium
+
+  * Initial release (Closes: #909167)
+
+ -- Yangfl <mmyangfl@gmail.com>  Wed, 19 Sep 2018 14:35:07 +0800
